@@ -31,7 +31,3 @@ rent_book_update:
   path: /rent-book/update/{judul}
   methods: ['PUT']
   controller: App\Controller\Api\PinjamController::update
-# anggota_list_all:
-#   path: /list
-#   methods: ['GET']
-#   controller: App\Controller\Api\AnggotaController::listAnggota
