@@ -1,0 +1,37 @@
+welcome:
+  path: /
+  methods: ['GET']
+  controller: App\Controller\Api\AnggotaController::index
+
+anggota_create:
+  path: /register
+  methods: ['POST']
+  controller: App\Controller\Api\AnggotaController::add
+
+api_login_check:
+  path: /login
+  methods: ['POST']
+
+anggota_list_one:
+  path: /anggota
+  methods: ['GET']
+  controller: App\Controller\Api\AnggotaController::me
+
+book_list_all:
+  path: /book
+  methods: ['GET']
+  controller: App\Controller\Api\BukuController::index
+
+rent_book_create:
+  path: /rent-book/create
+  methods: ['POST']
+  controller: App\Controller\Api\PinjamController::add
+
+rent_book_update:
+  path: /rent-book/update/{judul}
+  methods: ['PUT']
+  controller: App\Controller\Api\PinjamController::update
+# anggota_list_all:
+#   path: /list
+#   methods: ['GET']
+#   controller: App\Controller\Api\AnggotaController::listAnggota
