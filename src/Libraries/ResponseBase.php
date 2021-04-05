@@ -16,35 +16,28 @@ class ResponseBase
     {
         $response = [];
 
-        $data = isset($dataResponse['data']) ? $dataResponse['data'] : null;
+        $encoder = new JsonEncoder();
 
-        if($data != null)
-        {
-            $encoder = new JsonEncoder();
+        $dateCallback = function ($object) {
+            return $object instanceof \DateTime ? $object->format('Y-m-d H:i:s') : '';
+        };
 
-            $dateCallback = function ($object) {
-                return $object instanceof \DateTime ? $object->format('Y-m-d H:i:s') : '';
-            };
+        $defaultContext = [
+            AbstractNormalizer::CALLBACKS => [
+                'tanggalPinjam' => $dateCallback,
+                'tanggalKembali' => $dateCallback,
+                'createdAt' => $dateCallback,
+                'updatedAt' => $dateCallback
+            ]
+        ];
 
-            $defaultContext = [
-                AbstractNormalizer::CALLBACKS => [
-                    'tanggalPinjam' => $dateCallback,
-                    'tanggalKembali' => $dateCallback,
-                    'createdAt' => $dateCallback,
-                    'updatedAt' => $dateCallback
-                ]
-            ];
-
-            $normalizer = new GetSetMethodNormalizer(null, new CamelCaseToSnakeCaseNameConverter(), null, null, null, $defaultContext);
-
-            $serializer = new Serializer([$normalizer], [$encoder]);
-
-            $normalizerData = $serializer->normalize($dataResponse['data'],null,[AbstractNormalizer::IGNORED_ATTRIBUTES => ['password','salt','updatedAt','roles','pinjams','username']]);
-        }
+        $normalizer = new GetSetMethodNormalizer(null, new CamelCaseToSnakeCaseNameConverter(), null, null, null, $defaultContext);
+        $serializer = new Serializer([$normalizer], [$encoder]);
+        $normalizerData = $serializer->normalize($dataResponse['data'],null,[AbstractNormalizer::IGNORED_ATTRIBUTES => ['password','salt','updatedAt','roles','pinjams','username']]);
 
         $response['status'] = 'success';
         $response['code']   = 200;
-        $response['data']   = $data != null ? $normalizerData : $data;
+        $response['data']   = $normalizerData;
 
         $resultResponse = new JsonResponse($response,Response::HTTP_OK);
 
