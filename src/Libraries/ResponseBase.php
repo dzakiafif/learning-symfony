@@ -39,7 +39,7 @@ class ResponseBase
 
             $serializer = new Serializer([$normalizer], [$encoder]);
 
-            $normalizerData = $serializer->normalize($dataResponse['data'],null,[AbstractNormalizer::IGNORED_ATTRIBUTES => ['password','salt','updatedAt','roles','pinjams']]);
+            $normalizerData = $serializer->normalize($dataResponse['data'],null,[AbstractNormalizer::IGNORED_ATTRIBUTES => ['password','salt','updatedAt','roles','pinjams','username']]);
         }
 
         $response['status'] = 'success';

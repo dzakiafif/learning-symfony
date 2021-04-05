@@ -59,11 +59,7 @@ class AnggotaRepository extends ServiceEntityRepository implements PasswordUpgra
         $this->manager->persist($anggota);
         $this->manager->flush();
 
-        $builder = $this->getEntityManager()->getRepository(Anggota::class);
-
-        $getOneData = $builder->findOneBy(['id' => $anggota->getId()]);
-
-        return $getOneData;
+        return $anggota;
         
     }
 
